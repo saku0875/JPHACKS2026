@@ -26,6 +26,8 @@ main（安定版。発表・デモに使う）
 
 内容はケバブケース（単語同士を`-`で繋ぐ記法）で簡潔に書くこと
 
+> ブランチ名が`#`から始まるので、コマンドで使うときは必ず`"#20-update-readme"`のようにクォート（`"`）で囲むこと。囲まないと`#`以降がコメント扱いになり、意図しないコマンドが実行される
+
 例
 | やること | issue | ブランチ名 |
 |---|---|---|
@@ -91,12 +93,12 @@ git switch -c "#1-update-docs"
 
 ```
 # 自分のPC（ローカル）にある場合
-git switch #1-update-docs
+git switch "#1-update-docs"
 git pull
 
 # GitHub上（リモート）にだけある場合
 git fetch origin
-git switch -c #1-update-docs --track origin/#1-update-docs
+git switch -c "#1-update-docs" --track "origin/#1-update-docs"
 ```
 
 作業を始める前に、今いるブランチを確認して、developやmainになっていないかどうかを確かめてください
@@ -129,7 +131,7 @@ git commit -m "docs/#1-docsにREADMEを追加"
 ### 4-5.プッシュする
 そのブランチを初めててプッシュするとき：
 ```
-git push -u origin #1-update-docs
+git push -u origin "#1-update-docs"
 ```
 
 > `-u`をつけると、自分のPCのブランチとGitHubのブランチが紐づきます。
