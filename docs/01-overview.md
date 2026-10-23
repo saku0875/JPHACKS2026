@@ -106,4 +106,3 @@
 - 使用するLLM：候補はClaudeかGPT。値段を考えるとDeepSeekもあり（画像入力に対応しているか要確認）
 - プラットフォーム：候補はFlutterかWebアプリ（PWA）
 - バックエンド・DB・認証：プラットフォームと一緒に選定する（候補：Firebase／Supabase／自前サーバ）
->>>>>>> Stashed changes
