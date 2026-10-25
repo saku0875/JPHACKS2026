@@ -8,8 +8,9 @@
   - たんさんのペットボトルの そこが でこぼこなのは どうして？
 - 「じぶんで かく」は使えません（ことわりの メッセージが出ます）
 - Firebase なし・API キーなしで動きます（`.env.local`）。データはブラウザに保存されます
+- `npm run dev` で起動しなおすたびに、ログイン画面から はじまります（作った ID と ずかんは のこるので「つづきから」で入れます）
 
-変えたところ：`src/server/llm/generate.ts`（AI を呼ばない）、`src/server/llm/builtin.ts` の末尾（`PET_BOTTLE`）
+変えたところ：`src/server/llm/generate.ts`（AI を呼ばない）、`src/server/llm/builtin.ts` の末尾（`PET_BOTTLE`）、`next.config.ts` と `src/lib/backend/local.ts`（起動ごとにログインを きる）
 
 ## うごかしかた
 ```

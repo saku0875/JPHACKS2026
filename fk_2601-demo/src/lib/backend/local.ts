@@ -31,8 +31,19 @@ export function writeJson(key: string, value: unknown): void {
 
 const listeners = new Set<(user: AuthUser | null) => void>();
 
+// デモ版：ログインは サーバーを起動しなおすと きれる（毎回ログイン画面から はじめるため）。ユーザーと データは のこる
+const BOOT_ID = process.env.NEXT_PUBLIC_BOOT_ID ?? "";
+
+type Session = AuthUser & { bootId?: string };
+
 function currentUser(): AuthUser | null {
-  return readJson<AuthUser | null>(KEY_SESSION, null);
+  const session = readJson<Session | null>(KEY_SESSION, null);
+  if (!session || session.bootId !== BOOT_ID) return null;
+  return { uid: session.uid, username: session.username };
+}
+
+function startSession(user: AuthUser): void {
+  writeJson(KEY_SESSION, { ...user, bootId: BOOT_ID });
 }
 
 function notify(): void {
@@ -59,7 +70,7 @@ export const localBackend: Backend = {
     if (users[username]) throw new UserFacingError("その ログイン ID は もう つかわれているよ。ちがう ID に してね");
     const user: AuthUser = { uid: `local-${usernameToLocalId(username)}`, username };
     writeJson(KEY_USERS, { ...users, [username]: user });
-    writeJson(KEY_SESSION, user);
+    startSession(user);
     notify();
     return user;
   },
@@ -69,7 +80,7 @@ export const localBackend: Backend = {
     validatePassword(password);
     const user = readJson<Record<string, AuthUser>>(KEY_USERS, {})[username];
     if (!user) throw new UserFacingError("ログイン ID か パスワードが ちがうよ");
-    writeJson(KEY_SESSION, user);
+    startSession(user);
     notify();
     return user;
   },
